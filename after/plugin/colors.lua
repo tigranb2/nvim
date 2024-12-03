@@ -1,3 +1,0 @@
-function ColorMyPencils(color)
-end
-
