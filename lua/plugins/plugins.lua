@@ -31,6 +31,11 @@ return {
         -- use opts = {} for passing setup options
         -- this is equivalent to setup({}) function
     },
+    {
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        config = true,
+    },
     -- lsp
     'neovim/nvim-lspconfig',
     "williamboman/mason.nvim",
@@ -38,7 +43,17 @@ return {
     "nvimtools/none-ls.nvim",
     -- autocompletion
     'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/nvim-cmp',
+    {
+        "hrsh7th/nvim-cmp",
+        opts = function(_, opts)
+            local cmp = require("cmp")
+            opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
+                ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+                ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+                ["<CR>"] = cmp.mapping.confirm({ select = true }),
+            })
+        end,
+    },
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
