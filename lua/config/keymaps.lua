@@ -6,3 +6,5 @@ vim.keymap.set("n", "<C-j>", "<C-e>", { desc = "Scroll down one line" })
 vim.keymap.set("n", "<C-k>", "<C-y>", { desc = "Scroll up one line" })
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Open vim file explorer" })
+
+vim.keymap.set("n", "<leader>cs", ':exec &bg=="light"? "set bg=dark" : "set bg=light"<CR>', {desc = "Toggle background mode", noremap = true, silent = true})

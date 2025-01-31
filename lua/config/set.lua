@@ -31,3 +31,5 @@ vim.opt.colorcolumn = "120"
 vim.opt.spell = true
 
 vim.g.mapleader = " "
+
+vim.opt.background = vim.fn.getenv("ITERM_PROFILE") == "Light" and "light" or "dark"
