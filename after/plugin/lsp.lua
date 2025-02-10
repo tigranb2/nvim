@@ -18,22 +18,38 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(event)
         local opts = { buffer = event.buf }
 
-        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-        vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-        vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-        vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>',
+            { desc = "Display hover information", buffer = event.buf })
+        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>',
+            { desc = "Go to definition", buffer = event.buf })
+        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',
+            { desc = "Go to declaration", buffer = event.buf })
+        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>',
+            { desc = "Go to implementation", buffer = event.buf })
+        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>',
+            { desc = "Go to definition of symbol's type", buffer = event.buf })
+        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>',
+            { desc = "List references to symbol", buffer = event.buf })
+        vim.keymap.set('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = "Rename symbol", buffer = event.buf })
+        vim.keymap.set('n', 'ge', '<cmd>lua vim.lsp.buf.code_action()<cr>',
+            { desc = "Display code actions available at current position", buffer = event.buf })
+        vim.keymap.set('n', '<leader>fm', vim.lsp.buf.format, { desc = 'Format buffer (LSP)' })
     end,
 })
 
 -- Add desired language servers
 require('lspconfig').lua_ls.setup({})
-require('lspconfig').clangd.setup {}
+require('lspconfig').clangd.setup {
+    cmd = {
+        -- see clangd --help-hidden
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=bundled",
+        "--cross-file-rename",
+        "--header-insertion=iwyu",
+    },
+}
 
 local cmp = require("cmp")
 
@@ -65,4 +81,3 @@ null_ls.setup({
 })
 
 -- custom keybinds
-vim.keymap.set('n', '<leader>fm', vim.lsp.buf.format, { desc = 'Format files (LSP)' })

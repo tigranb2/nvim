@@ -36,10 +36,11 @@ return {
         -- this is equivalent to setup({}) function
     },
     {
-        'akinsho/toggleterm.nvim',
+        "akinsho/toggleterm.nvim",
         version = "*",
         config = true,
     },
+    "echasnovski/mini.comment",
     -- lsp
     'neovim/nvim-lspconfig',
     "williamboman/mason.nvim",
